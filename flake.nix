@@ -25,6 +25,10 @@
           prePatch = ''
             sed -i "s@/usr/local@$out@" config.mk
           '';
+
+          meta = {
+            mainProgram = "dwm";
+          };
         };
     };
 }
