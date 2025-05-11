@@ -90,7 +90,7 @@ pkgs.writeText "config.def.h" ''
   /* commands */
   static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
   static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, NULL };
-  static const char *termcmd[]  = { "${pkgs.st}/bin/st", NULL };
+  static const char *termcmd[]  = { "${pkgs.kitty}/bin/kitty", NULL };
   static const char *rebuildcmd[] = { "kitty", "--hold", "bash", "/home/a/NixOS/scripts/error-wrap.sh", NULL };
   static const char *v2rayAcmd[] = { "kitty", "sudo", "v2rayA", NULL };
   static const char *slockcmd[] = { "slock", NULL };
