@@ -6,11 +6,13 @@
   outputs =
     { self, nixpkgs }:
     let
-      configFile = import ./config.nix { inherit nixpkgs; };
+      system = "x86_64-linux";
+      pkgs = import nixpkgs { inherit system; };
+      configFile = import ./config.nix { inherit pkgs; };
     in
     {
-      defaultPackage.x86_64-linux =
-        with import nixpkgs { system = "x86_64-linux"; };
+      defaultPackage.${system} =
+        with pkgs;
         stdenv.mkDerivation {
           name = "dwm";
           version = "6.5";
