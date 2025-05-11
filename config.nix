@@ -1,4 +1,9 @@
 { pkgs }:
+let
+  saveScreenshot = pkgs.writeShellScript "savescreenshot.sh" ''
+    ${pkgs.maim}/bin/maim -s /home/a/Pictures/$(date +%s).png
+  '';
+in
 pkgs.writeText "config.def.h" ''
   /* See LICENSE file for copyright and license details. */
 
@@ -95,7 +100,7 @@ pkgs.writeText "config.def.h" ''
   static const char *v2rayAcmd[] = { "kitty", "sudo", "v2rayA", NULL };
   static const char *slockcmd[] = { "slock", NULL };
   static const char *rangercmd[] = { "kitty", "--hold", "ranger", NULL };
-  static const char *savescreenshotcmd[] = { "bash", "/home/a/NixOS/scripts/savescreenshot.sh", NULL };
+  static const char *savescreenshotcmd[] = { "bash", "${saveScreenshot}", NULL };
   static const char *copyscreenshotcmd[] = { "bash", "/home/a/NixOS/scripts/copyscreenshot.sh", NULL };
   static const char *alsamixercmd[] = { "kitty", "alsamixer", NULL };
 
