@@ -5,6 +5,9 @@
 
   outputs =
     { self, nixpkgs }:
+    let
+      configFile = import ./config.nix { inherit nixpkgs; };
+    in
     {
       defaultPackage.x86_64-linux =
         with import nixpkgs { system = "x86_64-linux"; };
@@ -24,6 +27,7 @@
 
           prePatch = ''
             sed -i "s@/usr/local@$out@" config.mk
+            cp ${configFile} config.def.h
           '';
 
           meta = {
