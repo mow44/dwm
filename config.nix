@@ -1,9 +1,8 @@
-{ pkgs }:
-let
-  saveScreenshot = pkgs.writeShellScript "savescreenshot.sh" ''
-    ${pkgs.maim}/bin/maim -s /home/a/Pictures/$(date +%s).png
-  '';
-in
+{
+  pkgs,
+  scripts,
+  dmenu,
+}:
 pkgs.writeText "config.def.h" ''
   /* See LICENSE file for copyright and license details. */
 
@@ -29,11 +28,11 @@ pkgs.writeText "config.def.h" ''
   static const int showsystray        = 1;        /* 0 means no systray */
   static const int showbar            = 1;        /* 0 means no bar */
   static const int topbar             = 1;        /* 0 means bottom bar */
-  static const char *fonts[]          = {
-  	"DroidSansMNerdFontMono:size=12",
+  static const char *fonts[]          = { // TODO make via nix pkgs.nerd-fonts....
+  	// "DroidSansMNerdFontMono:size=14",
+  	"AtkynsonMono Nerd Font Mono:size=14",
   	"monospace:size=14"
   };
-  static const char dmenufont[]       = "DroidSansMNerdFontMono:size=14";
   static const char col_gray1[]       = "#222222";
   static const char col_gray2[]       = "#444444";
   static const char col_gray3[]       = "#bbbbbb";
@@ -94,15 +93,55 @@ pkgs.writeText "config.def.h" ''
 
   /* commands */
   static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-  static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, NULL };
-  static const char *termcmd[]  = { "${pkgs.kitty}/bin/kitty", NULL };
-  static const char *rebuildcmd[] = { "kitty", "--hold", "bash", "/home/a/NixOS/scripts/error-wrap.sh", NULL };
-  static const char *v2rayAcmd[] = { "kitty", "sudo", "v2rayA", NULL };
-  static const char *slockcmd[] = { "slock", NULL };
-  static const char *rangercmd[] = { "kitty", "--hold", "ranger", NULL };
-  static const char *savescreenshotcmd[] = { "bash", "${saveScreenshot}", NULL };
-  static const char *copyscreenshotcmd[] = { "bash", "/home/a/NixOS/scripts/copyscreenshot.sh", NULL };
-  static const char *alsamixercmd[] = { "kitty", "alsamixer", NULL };
+
+  static const char *dmenucmd[] = {
+    "${dmenu}/bin/dmenu_run",
+    "-m",
+    dmenumon,
+    NULL
+  };
+
+  static const char *termcmd[]  = {
+    "${pkgs.kitty}/bin/kitty",
+    NULL
+  };
+
+  /*  static const char *rebuildcmd[] = {
+      "kitty",
+      "--hold",
+      "bash",
+      "/home/a/NixOS/scripts/error-wrap.sh",
+      NULL
+    };
+  */
+  static const char *v2rayAcmd[] = {
+    "${pkgs.kitty}/bin/kitty",
+    "--hold",
+    "sudo",
+    "${pkgs.v2raya}/bin/v2rayA",
+    NULL
+  };
+
+  static const char *slockcmd[] = {
+    "slock",
+    NULL
+  };
+
+  static const char *savescreenshotcmd[] = {
+    "${scripts.packages.x86_64-linux.screenshot-save}/bin/screenshot-save",
+    NULL
+  };
+
+  static const char *copyscreenshotcmd[] = {
+    "${scripts.packages.x86_64-linux.screenshot-copy}/bin/screenshot-copy",
+    NULL
+  };
+
+  static const char *alsamixercmd[] = {
+    "${pkgs.kitty}/bin/kitty",
+    "${pkgs.alsa-utils}/bin/alsamixer",
+    NULL
+  };
 
   #include "movestack.c"
   static const Key keys[] = {
@@ -142,10 +181,10 @@ pkgs.writeText "config.def.h" ''
   	TAGKEYS(                        XK_8,                        7)
   	TAGKEYS(                        XK_9,                        8)
   	{ MODKEY|ShiftMask,             XK_q,        quit,           {0} },
-  	{ MODKEY,                       XK_r,        spawn,          {.v = rebuildcmd } },
+    // { MODKEY,                       XK_r,        spawn,          {.v = rebuildcmd } },
   	{ MODKEY,                       XK_v,        spawn,          {.v = v2rayAcmd } },
   	{ MODKEY,                       XK_s,        spawn,          {.v = slockcmd } },
-  	{ MODKEY,                       XK_e,        spawn,          {.v = rangercmd } },
+  	// { MODKEY,                       XK_e,        spawn,          {.v = rangercmd } },
   	{ MODKEY|ShiftMask,             PrintScreen, spawn,          {.v = savescreenshotcmd } },
   	{ MODKEY,                       PrintScreen, spawn,          {.v = copyscreenshotcmd } },
   	{ MODKEY,                       XK_a,        spawn,          {.v = alsamixercmd } },

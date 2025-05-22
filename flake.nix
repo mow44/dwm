@@ -1,14 +1,39 @@
 {
-  description = "dwm-6.5";
+  description = "dwm";
 
-  inputs.nixpkgs.url = "nixpkgs/nixpkgs-unstable";
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
+
+    scripts = {
+      url = "path:/home/a/NixOS/scripts";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
+    };
+
+    dmenu = {
+      url = "github:mow44/dmenu/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
 
   outputs =
-    { self, nixpkgs }:
+    {
+      self,
+      nixpkgs,
+      scripts,
+      dmenu,
+      ...
+    }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
-      configFile = import ./config.nix { inherit pkgs; };
+      configFile = import ./config.nix {
+        inherit pkgs scripts;
+        dmenu = dmenu.defaultPackage.x86_64-linux;
+      };
     in
     {
       defaultPackage.${system} =
