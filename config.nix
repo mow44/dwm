@@ -107,11 +107,16 @@ pkgs.writeText "config.def.h" ''
   };
 
   static const char *rebuildcmd[] = {
-      "kitty",
-      "--hold",
-      "${scripts.packages.x86_64-linux.system-rebuild}/bin/system-rebuild",
-      NULL
-    };
+    "kitty",
+    "--hold",
+    "${scripts.packages.x86_64-linux.system-rebuild}/bin/system-rebuild",
+    NULL
+  };
+
+  static const char *powermenucmd[] = {
+    "${scripts.packages.x86_64-linux.power-menu}/bin/power-menu",
+    NULL,
+  };
 
   static const char *v2rayAcmd[] = {
     "${pkgs.kitty}/bin/kitty",

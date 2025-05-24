@@ -5,17 +5,18 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
 
+    dmenu = {
+      url = "github:mow44/dmenu/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     scripts = {
       url = "path:/home/a/NixOS/scripts";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         flake-utils.follows = "flake-utils";
+        dmenu.follows = "dmenu";
       };
-    };
-
-    dmenu = {
-      url = "github:mow44/dmenu/main";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 

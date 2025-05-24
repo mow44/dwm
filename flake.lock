@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1747934099,
-        "narHash": "sha256-18cMAe6v5apS8hC7tmzwJTTictnVI2aZV8wOAnuZsco=",
+        "lastModified": 1748011482,
+        "narHash": "sha256-l1MCComVQURjTeZAfsxPOlU8spXGV7UTqA0kKwaSM14=",
         "owner": "mow44",
         "repo": "dmenu",
-        "rev": "4a897b28858a66e40c8e34e426a9c0b572f4fbcc",
+        "rev": "d33926ef1e487a6d07e694198fd74029d2e6e02e",
         "type": "github"
       },
       "original": {
@@ -65,6 +65,9 @@
     },
     "scripts": {
       "inputs": {
+        "dmenu": [
+          "dmenu"
+        ],
         "flake-utils": [
           "flake-utils"
         ],
@@ -73,8 +76,8 @@
         ]
       },
       "locked": {
-        "lastModified": 1747935516,
-        "narHash": "sha256-FbMc3ng1FeEKlxeeBJm7yl7TqWdGqTCSyQ9gO+vxWDs=",
+        "lastModified": 1748103225,
+        "narHash": "sha256-u6Q68MJCYIJdQEVXk09MFY4NgfjCfqSqeuJNVkkdM7A=",
         "path": "/home/a/NixOS/scripts",
         "type": "path"
       },
