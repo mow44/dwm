@@ -184,7 +184,8 @@ pkgs.writeText "config.def.h" ''
   	TAGKEYS(                        XK_7,                        6)
   	TAGKEYS(                        XK_8,                        7)
   	TAGKEYS(                        XK_9,                        8)
-  	{ MODKEY|ShiftMask,             XK_q,        quit,           {0} },
+  	// { MODKEY|ShiftMask,             XK_q,        quit,           {0} },
+  	{ MODKEY|ShiftMask,             XK_q,        spawn,          {.v = powermenucmd } },
     { MODKEY,                       XK_r,        spawn,          {.v = rebuildcmd } },
   	{ MODKEY,                       XK_v,        spawn,          {.v = v2rayAcmd } },
   	{ MODKEY,                       XK_s,        spawn,          {.v = slockcmd } },
