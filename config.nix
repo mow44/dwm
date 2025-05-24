@@ -106,14 +106,13 @@ pkgs.writeText "config.def.h" ''
     NULL
   };
 
-  /*  static const char *rebuildcmd[] = {
+  static const char *rebuildcmd[] = {
       "kitty",
       "--hold",
-      "bash",
-      "/home/a/NixOS/scripts/error-wrap.sh",
+      "${scripts.packages.x86_64-linux.system-rebuild}/bin/system-rebuild",
       NULL
     };
-  */
+
   static const char *v2rayAcmd[] = {
     "${pkgs.kitty}/bin/kitty",
     "--hold",
@@ -181,7 +180,7 @@ pkgs.writeText "config.def.h" ''
   	TAGKEYS(                        XK_8,                        7)
   	TAGKEYS(                        XK_9,                        8)
   	{ MODKEY|ShiftMask,             XK_q,        quit,           {0} },
-    // { MODKEY,                       XK_r,        spawn,          {.v = rebuildcmd } },
+    { MODKEY,                       XK_r,        spawn,          {.v = rebuildcmd } },
   	{ MODKEY,                       XK_v,        spawn,          {.v = v2rayAcmd } },
   	{ MODKEY,                       XK_s,        spawn,          {.v = slockcmd } },
   	// { MODKEY,                       XK_e,        spawn,          {.v = rangercmd } },
