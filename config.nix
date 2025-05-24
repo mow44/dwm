@@ -114,8 +114,8 @@ pkgs.writeText "config.def.h" ''
   };
 
   static const char *powermenucmd[] = {
-    "${scripts.packages.x86_64-linux.power-menu}/bin/power-menu",
-    NULL,
+    "${scripts.packages.x86_64-linux.powermenu}/bin/powermenu",
+    NULL
   };
 
   static const char *v2rayAcmd[] = {
