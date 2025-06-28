@@ -34,7 +34,7 @@
         pkgs = import nixpkgs { inherit system; };
         configFile = import ./config.nix {
           inherit pkgs scripts;
-          dmenu = dmenu.defaultPackage.x86_64-linux;
+          dmenu = dmenu.packages.${system}.default;
         };
       in
       {
