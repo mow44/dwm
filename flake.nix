@@ -24,43 +24,47 @@
     {
       self,
       nixpkgs,
-      scripts,
+      flake-utils,
       dmenu,
-      ...
+      scripts,
     }:
-    let
-      system = "x86_64-linux";
-      pkgs = import nixpkgs { inherit system; };
-      configFile = import ./config.nix {
-        inherit pkgs scripts;
-        dmenu = dmenu.defaultPackage.x86_64-linux;
-      };
-    in
-    {
-      defaultPackage.${system} =
-        with pkgs;
-        stdenv.mkDerivation {
-          name = "dwm";
-          version = "6.5";
-
-          src = self;
-
-          buildInputs = with pkgs; [
-            xorg.libX11
-            xorg.libXinerama
-            xorg.libXft
-          ];
-
-          makeFlags = [ "CC=${stdenv.cc.targetPrefix}cc" ];
-
-          prePatch = ''
-            sed -i "s@/usr/local@$out@" config.mk
-            cp ${configFile} config.def.h
-          '';
-
-          meta = {
-            mainProgram = "dwm";
-          };
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+        configFile = import ./config.nix {
+          inherit pkgs scripts;
+          dmenu = dmenu.defaultPackage.x86_64-linux;
         };
-    };
+      in
+      {
+        packages = rec {
+          dwm = pkgs.stdenv.mkDerivation {
+            name = "dwm";
+            version = "6.5";
+
+            src = self;
+
+            buildInputs = with pkgs; [
+              xorg.libX11
+              xorg.libXinerama
+              xorg.libXft
+            ];
+
+            makeFlags = [ "CC=${pkgs.stdenv.cc.targetPrefix}cc" ];
+
+            prePatch = ''
+              sed -i "s@/usr/local@$out@" config.mk
+              cp ${configFile} config.def.h
+            '';
+
+            meta = {
+              mainProgram = "dwm";
+            };
+          };
+
+          default = dwm;
+        };
+      }
+    );
 }
