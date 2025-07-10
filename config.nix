@@ -29,8 +29,7 @@ pkgs.writeText "config.def.h" ''
   static const int showbar            = 1;        /* 0 means no bar */
   static const int topbar             = 1;        /* 0 means bottom bar */
   static const char *fonts[]          = { // TODO make via nix pkgs.nerd-fonts....
-  	// "DroidSansMNerdFontMono:size=14",
-  	"AtkynsonMono Nerd Font Mono:size=14",
+  	"JetBrainsMono Nerd Font Mono:size=14",
   	"monospace:size=14"
   };
   static const char col_gray1[]       = "#222222";
