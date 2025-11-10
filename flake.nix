@@ -49,6 +49,7 @@
               xorg.libX11
               xorg.libXinerama
               xorg.libXft
+              xorg.libxcb
             ];
 
             makeFlags = [ "CC=${pkgs.stdenv.cc.targetPrefix}cc" ];
